@@ -1,10 +1,10 @@
-import { useRef, useId } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { modalStyles } from '../styles/modalStyles';
-import { formSchema } from '../utils/validation';
-import { FormField } from './FormField';
-import { Modal } from './Modal';
+import { useRef, useId } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { modalStyles } from "../styles/modalStyles";
+import { formSchema } from "../utils/validation";
+import { FormField } from "./FormField";
+import { Modal } from "./Modal";
 import type { FormData } from "../utils/validation";
 
 interface ModalFormProps {
@@ -24,10 +24,10 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nameOrNickname: '',
-      email: '',
-      feExperience: '',
-      githubLink: '',
+      nameOrNickname: "",
+      email: "",
+      feExperience: "",
+      githubLink: "",
     },
   });
 
@@ -48,15 +48,8 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <h2
-        id="modal-title"
-        tabIndex={-1}
-        style={modalStyles.title}
-      >
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h2 id="modal-title" tabIndex={-1} style={modalStyles.title}>
         신청 폼
       </h2>
 
@@ -75,7 +68,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
         <FormField
           id={`${formId}-nameOrNickname`}
           label="이름/닉네임"
-          registration={register('nameOrNickname')}
+          registration={register("nameOrNickname")}
           error={errors.nameOrNickname?.message}
           required
         />
@@ -84,7 +77,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
           id={`${formId}-email`}
           label="이메일"
           type="email"
-          registration={register('email')}
+          registration={register("email")}
           error={errors.email?.message}
           required
         />
@@ -92,15 +85,15 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
         <FormField
           id={`${formId}-feExperience`}
           label="FE 경력 연차"
-          registration={register('feExperience')}
+          registration={register("feExperience")}
           error={errors.feExperience?.message}
           required
           isSelect
           options={[
-            { value: '', label: '선택해주세요' },
-            { value: '0~3년', label: '0~3년' },
-            { value: '4~7년', label: '4~7년' },
-            { value: '8년 이상', label: '8년 이상' },
+            { value: "", label: "선택해주세요" },
+            { value: "0~3년", label: "0~3년" },
+            { value: "4~7년", label: "4~7년" },
+            { value: "8년 이상", label: "8년 이상" },
           ]}
         />
 
@@ -108,12 +101,15 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
           id={`${formId}-githubLink`}
           label="GitHub 링크(선택)"
           type="url"
-          registration={register('githubLink')}
+          registration={register("githubLink")}
           error={errors.githubLink?.message}
           placeholder="https://github.com/username"
         />
 
-        <div className="modal-button-container" style={modalStyles.buttonContainer}>
+        <div
+          className="modal-button-container"
+          style={modalStyles.buttonContainer}
+        >
           <button
             type="button"
             className="modal-cancel-button"
@@ -125,9 +121,9 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
             type="submit"
             className="modal-submit-button"
             disabled={isSubmitting}
-            aria-describedby={isSubmitting ? 'submit-status' : undefined}
+            aria-describedby={isSubmitting ? "submit-status" : undefined}
           >
-            {isSubmitting ? '제출 중...' : '제출'}
+            {isSubmitting ? "제출 중..." : "제출"}
           </button>
           {isSubmitting && (
             <span id="submit-status" className="sr-only">

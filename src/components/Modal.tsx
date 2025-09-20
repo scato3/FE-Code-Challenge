@@ -1,6 +1,6 @@
-import type React from 'react';
-import { useModalAccessibility } from '../hooks/useModalAccessibility';
-import { modalStyles } from '../styles/modalStyles';
+import type React from "react";
+import { useModalAccessibility } from "../hooks/useModalAccessibility";
+import { modalStyles } from "../styles/modalStyles";
 
 interface ModalProps {
   isOpen: boolean;
