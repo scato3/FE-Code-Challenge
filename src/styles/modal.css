@@ -1,0 +1,196 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-overlay > div {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal-container {
+    padding: 16px !important;
+    max-height: 85vh;
+  }
+
+  .modal-button-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-button-container button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus,
+select[aria-invalid="true"]:focus {
+  outline: 2px solid #dc3545;
+  outline-offset: 2px;
+}
+
+.modal-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-container {
+  animation: slideUp 0.2s ease-out;
+}
+
+/* 모달 버튼 스타일 */
+.modal-cancel-button {
+  padding: 16px 20px;
+  border: 2px solid #6c757d;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #6c757d;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 80px;
+}
+
+.modal-cancel-button:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.modal-cancel-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.modal-submit-button {
+  padding: 16px 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+  min-width: 80px;
+}
+
+.modal-submit-button:hover:not(:disabled) {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.modal-submit-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.modal-submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* 폼 필드 스타일 */
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-field-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-field-input:focus {
+  border-color: #007bff;
+}
+
+.form-field-input.error {
+  border-color: #dc3545;
+}
+
+.form-field-input.error:focus {
+  border-color: #dc3545;
+}
+
+.form-field-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: white;
+}
+
+.form-field-select:focus {
+  border-color: #007bff;
+}
+
+.form-field-select.error {
+  border-color: #dc3545;
+}
+
+.form-field-select.error:focus {
+  border-color: #dc3545;
+}
+
+.form-field-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* 스크린 리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
