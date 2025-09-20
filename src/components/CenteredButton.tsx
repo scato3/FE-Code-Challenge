@@ -1,21 +1,17 @@
 import type React from 'react';
 
-interface CenteredButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  ref?: React.Ref<HTMLButtonElement>;
-}
+type CenteredButtonProps = React.ComponentPropsWithoutRef<'button'>;
 
 export const CenteredButton = ({
   children,
   onClick,
-  ref,
+  ...props
 }: CenteredButtonProps) => {
   return (
     <button
       type="button"
-      ref={ref}
       onClick={onClick}
+      {...props}
       style={{
         position: 'fixed',
         top: '50%',
