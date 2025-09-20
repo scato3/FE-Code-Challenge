@@ -3,20 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "dev": "vite",
     "check": "biome check"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "modern-normalize": "^3.0.1",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.63.0",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.2",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "vite": "^5.4.0"
   }
 }
