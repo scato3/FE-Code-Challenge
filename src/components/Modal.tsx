@@ -1,6 +1,6 @@
-import type React from "react";
-import { useModalAccessibility } from "../hooks/useModalAccessibility";
-import { modalStyles } from "../styles/modalStyles";
+import type React from 'react';
+import { useModalAccessibility } from '../hooks/useModalAccessibility';
+import { modalStyles } from '../styles/modalStyles';
 
 interface ModalProps {
   isOpen: boolean;
@@ -28,15 +28,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       onClick={handleOverlayClick}
       style={modalStyles.overlay}
     >
-      <div
-        ref={modalRef}
-        className="modal-container"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-        style={modalStyles.modal}
-      >
+      <div ref={modalRef} className="modal-container" style={modalStyles.modal}>
         {children}
       </div>
     </div>

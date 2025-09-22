@@ -1,4 +1,11 @@
-import { COLORS, SPACING, TYPOGRAPHY, BORDER_RADIUS, Z_INDEX, TRANSITIONS } from './design-tokens';
+import {
+  BORDER_RADIUS,
+  COLORS,
+  SPACING,
+  TRANSITIONS,
+  TYPOGRAPHY,
+  Z_INDEX,
+} from './design-tokens';
 
 export const modalStyles = {
   overlay: {
@@ -69,4 +76,3 @@ export const modalStyles = {
     minWidth: '80px',
   },
 };
-

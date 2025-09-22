@@ -21,7 +21,7 @@
 @media (prefers-reduced-motion: reduce) {
   .modal-overlay,
   .modal-overlay > div {
-    animation: none !important;
+    animation: none;
   }
 }
 
@@ -31,7 +31,7 @@
   }
 
   .modal-container {
-    padding: 16px !important;
+    padding: 16px;
     max-height: 85vh;
   }
 
@@ -46,20 +46,7 @@
   }
 }
 
-input:focus,
-textarea:focus,
-select:focus,
-button:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-}
-
-input[aria-invalid="true"]:focus,
-textarea[aria-invalid="true"]:focus,
-select[aria-invalid="true"]:focus {
-  outline: 2px solid #dc3545;
-  outline-offset: 2px;
-}
+/* 전역 outline 제거 - 각 컴포넌트에서 개별 관리 */
 
 .modal-overlay {
   animation: fadeIn 0.2s ease-out;

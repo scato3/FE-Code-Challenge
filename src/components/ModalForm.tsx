@@ -1,11 +1,12 @@
-import { useRef, useId } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { modalStyles } from "../styles/modalStyles";
-import { formSchema } from "../utils/validation";
-import { FormField } from "./FormField";
-import { Modal } from "./Modal";
-import type { FormData } from "../utils/validation";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMemo, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { useAccessibleModal } from '../hooks/useAccessibleModal';
+import { modalStyles } from '../styles/modalStyles';
+import type { FormData } from '../utils/validation';
+import { formSchema } from '../utils/validation';
+import { FormField } from './FormField';
+import { Modal } from './Modal';
 
 interface ModalFormProps {
   isOpen: boolean;
@@ -15,7 +16,23 @@ interface ModalFormProps {
 
 export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
   const errorAnnouncementRef = useRef<HTMLDivElement>(null);
-  const formId = useId();
+  const { formId, submitStatusId, modalProps, titleProps, descriptionProps } =
+    useAccessibleModal();
+
+  const feExperienceOptions = useMemo(
+    () => [
+      { value: '', label: '선택해주세요' },
+      { value: '0~3년', label: '0~3년' },
+      { value: '4~7년', label: '4~7년' },
+      { value: '8년 이상', label: '8년 이상' },
+    ],
+    [],
+  );
+
+  // 테스트용 에러 트리거 (URL에 ?error=true 추가하면 에러 발생)
+  if (typeof window !== 'undefined' && window.location.search.includes('error=true')) {
+    throw new Error('테스트용 렌더링 에러입니다!');
+  }
 
   const {
     register,
@@ -24,10 +41,10 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nameOrNickname: "",
-      email: "",
-      feExperience: "",
-      githubLink: "",
+      nameOrNickname: '',
+      email: '',
+      feExperience: '',
+      githubLink: '',
     },
   });
 
@@ -49,89 +66,86 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 id="modal-title" tabIndex={-1} style={modalStyles.title}>
-        신청 폼
-      </h2>
+      <div {...modalProps}>
+        <h2 {...titleProps} style={modalStyles.title}>
+          신청 폼
+        </h2>
 
-      <p id="modal-description" style={modalStyles.description}>
-        이메일과 FE경력 연차 등 간단한 정보를 입력해주세요.
-      </p>
-
-      <div
-        ref={errorAnnouncementRef}
-        aria-live="assertive"
-        aria-atomic="true"
-        className="sr-only"
-      />
-
-      <form onSubmit={handleSubmit(onFormSubmit, onFormError)} noValidate>
-        <FormField
-          id={`${formId}-nameOrNickname`}
-          label="이름/닉네임"
-          registration={register("nameOrNickname")}
-          error={errors.nameOrNickname?.message}
-          required
-        />
-
-        <FormField
-          id={`${formId}-email`}
-          label="이메일"
-          type="email"
-          registration={register("email")}
-          error={errors.email?.message}
-          required
-        />
-
-        <FormField
-          id={`${formId}-feExperience`}
-          label="FE 경력 연차"
-          registration={register("feExperience")}
-          error={errors.feExperience?.message}
-          required
-          isSelect
-          options={[
-            { value: "", label: "선택해주세요" },
-            { value: "0~3년", label: "0~3년" },
-            { value: "4~7년", label: "4~7년" },
-            { value: "8년 이상", label: "8년 이상" },
-          ]}
-        />
-
-        <FormField
-          id={`${formId}-githubLink`}
-          label="GitHub 링크(선택)"
-          type="url"
-          registration={register("githubLink")}
-          error={errors.githubLink?.message}
-          placeholder="https://github.com/username"
-        />
+        <p {...descriptionProps} style={modalStyles.description}>
+          이메일과 FE경력 연차 등 간단한 정보를 입력해주세요.
+        </p>
 
         <div
-          className="modal-button-container"
-          style={modalStyles.buttonContainer}
-        >
-          <button
-            type="button"
-            className="modal-cancel-button"
-            onClick={onClose}
+          ref={errorAnnouncementRef}
+          aria-live="assertive"
+          aria-atomic="true"
+          className="sr-only"
+        />
+
+        <form onSubmit={handleSubmit(onFormSubmit, onFormError)} noValidate>
+          <FormField
+            id={`${formId}-nameOrNickname`}
+            label="이름/닉네임"
+            registration={register('nameOrNickname')}
+            error={errors.nameOrNickname?.message}
+            required
+          />
+
+          <FormField
+            id={`${formId}-email`}
+            label="이메일"
+            type="email"
+            registration={register('email')}
+            error={errors.email?.message}
+            required
+          />
+
+          <FormField
+            id={`${formId}-feExperience`}
+            label="FE 경력 연차"
+            registration={register('feExperience')}
+            error={errors.feExperience?.message}
+            required
+            isSelect
+            options={feExperienceOptions}
+          />
+
+          <FormField
+            id={`${formId}-githubLink`}
+            label="GitHub 링크(선택)"
+            type="url"
+            registration={register('githubLink')}
+            error={errors.githubLink?.message}
+            placeholder="https://github.com/username"
+          />
+
+          <div
+            className="modal-button-container"
+            style={modalStyles.buttonContainer}
           >
-            취소
-          </button>
-          <button
-            type="submit"
-            className="modal-submit-button"
-            disabled={isSubmitting}
-            aria-describedby={isSubmitting ? "submit-status" : undefined}
-          >
-            {isSubmitting ? "제출 중..." : "제출"}
-          </button>
-          {isSubmitting && (
-            <span id="submit-status" className="sr-only">
-              폼을 제출하는 중입니다. 잠시만 기다려주세요.
-            </span>
-          )}
-        </div>
-      </form>
+            <button
+              type="button"
+              className="modal-cancel-button"
+              onClick={onClose}
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              className="modal-submit-button"
+              disabled={isSubmitting}
+              aria-describedby={isSubmitting ? submitStatusId : undefined}
+            >
+              {isSubmitting ? '제출 중...' : '제출'}
+            </button>
+            {isSubmitting && (
+              <span id={submitStatusId} className="sr-only">
+                폼을 제출하는 중입니다. 잠시만 기다려주세요.
+              </span>
+            )}
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 };

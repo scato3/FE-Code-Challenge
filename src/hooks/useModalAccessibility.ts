@@ -6,7 +6,8 @@ interface UseModalAccessibilityProps {
 }
 
 // 포커스 가능한 요소들을 찾는 셀렉터
-const FOCUSABLE_SELECTOR = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])';
+const FOCUSABLE_SELECTOR =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])';
 
 export const useModalAccessibility = ({
   isOpen,
@@ -18,7 +19,9 @@ export const useModalAccessibility = ({
   // 모달 내 포커스 가능한 요소들 조회
   const getFocusableElements = useCallback(() => {
     if (!modalRef.current) return [];
-    return Array.from(modalRef.current.querySelectorAll(FOCUSABLE_SELECTOR)) as HTMLElement[];
+    return Array.from(
+      modalRef.current.querySelectorAll(FOCUSABLE_SELECTOR),
+    ) as HTMLElement[];
   }, []);
 
   const handleKeyDown = useCallback(
