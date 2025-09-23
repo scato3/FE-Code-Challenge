@@ -61,7 +61,6 @@ export const FormField = ({
         <div
           id={`${id}-error`}
           role="alert"
-          aria-live="polite"
           className="form-field-error"
         >
           {error}

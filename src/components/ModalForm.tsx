@@ -1,12 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { useAccessibleModal } from '../hooks/useAccessibleModal';
-import { modalStyles } from '../styles/modalStyles';
-import type { FormData } from '../utils/validation';
-import { formSchema } from '../utils/validation';
-import { FormField } from './FormField';
-import { Modal } from './Modal';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { useAccessibleModal } from "../hooks/useAccessibleModal";
+import { modalStyles } from "../styles/modalStyles";
+import type { FormData } from "../utils/validation";
+import { formSchema } from "../utils/validation";
+import { FormField } from "./FormField";
+import { Modal } from "./Modal";
 
 interface ModalFormProps {
   isOpen: boolean;
@@ -15,37 +15,45 @@ interface ModalFormProps {
   onUnmount: () => void;
 }
 
-export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormProps) => {
-  const errorAnnouncementRef = useRef<HTMLDivElement>(null);
+export const ModalForm = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  onUnmount,
+}: ModalFormProps) => {
   const { formId, submitStatusId, modalProps, titleProps, descriptionProps } =
     useAccessibleModal();
 
   const feExperienceOptions = useMemo(
     () => [
-      { value: '', label: '선택해주세요' },
-      { value: '0~3년', label: '0~3년' },
-      { value: '4~7년', label: '4~7년' },
-      { value: '8년 이상', label: '8년 이상' },
+      { value: "", label: "선택해주세요" },
+      { value: "0~3년", label: "0~3년" },
+      { value: "4~7년", label: "4~7년" },
+      { value: "8년 이상", label: "8년 이상" },
     ],
-    [],
+    []
   );
 
   // 테스트용 에러 트리거 (URL에 ?error=true 추가하면 에러 발생)
-  if (typeof window !== 'undefined' && window.location.search.includes('error=true')) {
-    throw new Error('테스트용 렌더링 에러입니다!');
+  if (
+    typeof window !== "undefined" &&
+    window.location.search.includes("error=true")
+  ) {
+    throw new Error("테스트용 렌더링 에러입니다!");
   }
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setFocus,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nameOrNickname: '',
-      email: '',
-      feExperience: '',
-      githubLink: '',
+      nameOrNickname: "",
+      email: "",
+      feExperience: "",
+      githubLink: "",
     },
   });
 
@@ -54,40 +62,35 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormPro
   };
 
   const onFormError = () => {
-    const errorFields = Object.keys(errors);
+    const errorFields = Object.keys(errors) as Array<keyof FormData>;
     if (errorFields.length > 0) {
-      const firstErrorField = errorFields[0] as keyof FormData;
-
-      // 스크린 리더를 위한 에러 알림
-      if (errorAnnouncementRef.current) {
-        errorAnnouncementRef.current.textContent = `폼에 ${errorFields.length}개의 오류가 있습니다. 첫 번째 오류: ${errors[firstErrorField]?.message}`;
-      }
+      const firstErrorField = errorFields[0];
+      // 첫 오류 필드로 포커스 이동
+      setFocus(firstErrorField as any);
     }
   };
 
+  // 첫 오류만 role="alert"로 처리하던 로직은 단순화하여 제거
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} onUnmount={onUnmount}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      onUnmount={onUnmount}
+      stateKey="modalForm"
+    >
       <div {...modalProps}>
         <h2 {...titleProps} style={modalStyles.title}>
           신청 폼
         </h2>
-
         <p {...descriptionProps} style={modalStyles.description}>
           이메일과 FE경력 연차 등 간단한 정보를 입력해주세요.
         </p>
-
-        <div
-          ref={errorAnnouncementRef}
-          aria-live="assertive"
-          aria-atomic="true"
-          className="sr-only"
-        />
-
         <form onSubmit={handleSubmit(onFormSubmit, onFormError)} noValidate>
           <FormField
             id={`${formId}-nameOrNickname`}
             label="이름/닉네임"
-            registration={register('nameOrNickname')}
+            registration={register("nameOrNickname")}
             error={errors.nameOrNickname?.message}
             required
           />
@@ -96,7 +99,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormPro
             id={`${formId}-email`}
             label="이메일"
             type="email"
-            registration={register('email')}
+            registration={register("email")}
             error={errors.email?.message}
             required
           />
@@ -104,7 +107,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormPro
           <FormField
             id={`${formId}-feExperience`}
             label="FE 경력 연차"
-            registration={register('feExperience')}
+            registration={register("feExperience")}
             error={errors.feExperience?.message}
             required
             isSelect
@@ -115,7 +118,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormPro
             id={`${formId}-githubLink`}
             label="GitHub 링크(선택)"
             type="url"
-            registration={register('githubLink')}
+            registration={register("githubLink")}
             error={errors.githubLink?.message}
             placeholder="https://github.com/username"
           />
@@ -137,7 +140,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormPro
               disabled={isSubmitting}
               aria-describedby={isSubmitting ? submitStatusId : undefined}
             >
-              {isSubmitting ? '제출 중...' : '제출'}
+              {isSubmitting ? "제출 중..." : "제출"}
             </button>
             {isSubmitting && (
               <span id={submitStatusId} className="sr-only">
