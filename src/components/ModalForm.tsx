@@ -12,9 +12,10 @@ interface ModalFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: FormData) => void;
+  onUnmount: () => void;
 }
 
-export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
+export const ModalForm = ({ isOpen, onClose, onSubmit, onUnmount }: ModalFormProps) => {
   const errorAnnouncementRef = useRef<HTMLDivElement>(null);
   const { formId, submitStatusId, modalProps, titleProps, descriptionProps } =
     useAccessibleModal();
@@ -65,7 +66,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit }: ModalFormProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} onUnmount={onUnmount}>
       <div {...modalProps}>
         <h2 {...titleProps} style={modalStyles.title}>
           신청 폼
